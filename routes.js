@@ -10,7 +10,7 @@ export default new Router()
     cache({ edge: false, browser: false })
     compute(async(request, response) => {
 	response.setHeader('testy', 'test');		
-      return proxy('api')
+      return proxy('origin')
     })
   })
   .match('/edgio-api/:path*', {
