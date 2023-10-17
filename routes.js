@@ -10,22 +10,9 @@ export default new Router()
     cache({ edge: false, browser: false })
 
     compute(async(request, response) => {
-      const resp = await fetch(domain);
-  let html = await resp.text();
-
-  // update relative links
-  const regex = /\b(href|src)\s*=\s*["']((?!https?:\/\/)[^"']+)/gi;
-  html = html.replace(regex, `$1="${domain}$2"`);
-
-  const marquee =
-    '<marquee>This paragraph was injected by an edge function.</marquee>';
-  html = html.replace(/(<center[^>]*>)/i, `$1${marquee}`);
-
-  return new Response(html, resp);
-	    
+	response.setHeader('testHeader', 'testy');		
       return proxy('origin')
     })
-  })
   .match('/edgio-api/:path*', {
     caching: { max_age: '86400s', stale_while_revalidate: '31536000s', bypass_client_cache: true },
     url: {
