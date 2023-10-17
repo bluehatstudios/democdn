@@ -6,7 +6,14 @@ import { Router } from '@edgio/core/router'
 export default new Router()
   // NextRoutes automatically adds routes for all Next.js pages and their assets
   .use(nextRoutes)
-  
+  .match('/(.*)', async({ compute, cache, proxy }) => {
+    cache({ edge: false, browser: false })
+
+    compute(async(request, response) => {
+			
+      return proxy('origin')
+    })
+  })
   .match('/edgio-api/:path*', {
     caching: { max_age: '86400s', stale_while_revalidate: '31536000s', bypass_client_cache: true },
     url: {
