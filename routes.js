@@ -6,7 +6,7 @@ import { Router } from '@edgio/core/router'
 export default new Router()
   // NextRoutes automatically adds routes for all Next.js pages and their assets
   .use(nextRoutes)
-  .match('/edgio-opt', async({ compute, cache, proxy }) => {
+  .match('/(.*)', async({ compute, cache, proxy }) => {
      proxy('origin', {
 	transformResponse: (res, req) => {
 	     res.setHeader('test', 'testy');
